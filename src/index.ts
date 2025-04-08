@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { UserModel, ContentModel } from './db';
 import { userMiddleware } from './middleware';
 import { JWT_PASSWORD } from './config';
+import { CustomRequest } from './middleware';
 
 const app = express();
 app.use(express.json());
@@ -42,14 +43,13 @@ app.post("/api/v1/signin", async (req, res) => {
     }
 })
 
-app.post("/api/v1/content", userMiddleware, async (req, res) => {
+app.post("/api/v1/content", userMiddleware, async (req: CustomRequest, res) => {
     const link = req.body.link;
     const type = req.body.type;
     await ContentModel.create({
         link,
         type,
         title: req.body.title,
-        // @ts-ignore
         userId: req.userId,
         tags: []
     })
@@ -60,8 +60,7 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
     
 })
 
-app.get("/api/v1/content", userMiddleware, async (req, res) => {
-    // @ts-ignore
+app.get("/api/v1/content", userMiddleware, async (req: CustomRequest, res) => {
     const userId = req.userId;
     const content = await ContentModel.find({
         userId: userId

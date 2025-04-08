@@ -16,7 +16,6 @@ const userMiddleware = (req, res, next) => {
             });
             return;
         }
-        // @ts-ignore
         req.userId = decoded.id;
         next();
     }
