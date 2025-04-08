@@ -70,8 +70,8 @@ app.get("/api/v1/content", middleware_1.userMiddleware, (req, res) => __awaiter(
     // @ts-ignore
     const userId = req.userId;
     const content = yield db_1.ContentModel.find({
-        userId: userId,
-    }).populate("userId");
+        userId: userId
+    }).populate("userId", "username");
     res.json({
         content
     });
